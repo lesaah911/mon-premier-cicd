@@ -1,6 +1,6 @@
 ---
 - name: Déployer un site web
-  host: Webservers
+  hosts: Webservers
   become: yes
 
   tasks:
