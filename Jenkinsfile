@@ -33,7 +33,7 @@ pipeline {
                 echo '✅ Vérification que le site est accessible...'
                 sh '''
                     sleep 5
-                    curl -f http://54.173.65.79 || exit 1
+                    curl -f http://204.236.214.199 || exit 1
                 '''
             }
         }
