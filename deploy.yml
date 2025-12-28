@@ -1,23 +1,43 @@
 ---
-- name: Déployer un site web
+- name: Déployer un site web statique
   hosts: webservers
-  become: true
-
+  become: yes
+  
+  vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+  
   tasks:
-    - name: Supprimer la page par défaut nginx
-      file:
-        path: /var/www/html/index.nginx-debian.html
-        state: absent
-
-    - name: Copier notre site
+    - name: Installer Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+    
+    - name: Arrêter Apache2 (s'il existe)
+      service:
+        name: apache2
+        state: stopped
+        enabled: no
+      ignore_errors: yes
+    
+    - name: Supprimer tous les fichiers par défaut
+      shell: rm -rf /var/www/html/*
+    
+    - name: Copier notre site web
       copy:
-        src: website/
+        src: ./website/
         dest: /var/www/html/
         owner: www-data
         group: www-data
-        mode: 0644
-    - name: Redémarrer Apache
-      systemd:
-        name: apache2
+        mode: '0644'
+    
+    - name: S'assurer que Nginx est démarré
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+    
+    - name: Redémarrer Nginx
+      service:
+        name: nginx
         state: restarted
-
