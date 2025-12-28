@@ -1,0 +1,38 @@
+---
+- name: Déployer un site web
+  host: Webservers
+  become: yes
+
+  tasks:
+   - name: Mettre a jour les packages
+     apt:
+      upgrade_cache: yes
+
+   - name: Installer nginx
+     apt:
+      name: nginx
+      state: present
+
+   - name: supprimer le site par défaut
+     file:
+        path: /var/www/html/index.nginx-debian.html
+        state: absent
+   - name: Copier notre site
+     copy:
+     src: ./website/
+     dest: /var/www/html/index.nginx-debian.html
+     owner: www-data
+     group: www-data
+     mode: '0644'
+   - name: S'assurer que Nginx est démarrer
+     service:
+       name: nginx
+       state: started
+     enabled: yes
+   - name: Rédemarrer Nginx pour appliquer les changements
+     service:
+       name: nginx
+       state: restarted
+            
+
+        
