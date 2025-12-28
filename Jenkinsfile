@@ -23,7 +23,6 @@ pipeline {
             steps {
                 echo '⚙️ Exécution du playbook Ansible...'
                 sh '''
-                    cd /var/lib/jenkins/workspace/mon-premier-cicd
                     ansible-playbook -i inventory.ini deploy.yml
                 '''
             }
