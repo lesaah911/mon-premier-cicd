@@ -19,11 +19,11 @@
         state: absent
    - name: Copier notre site
      copy:
-     src: ./website/
-     dest: /var/www/html/index.nginx-debian.html
-     owner: www-data
-     group: www-data
-     mode: '0644'
+       src: ./website/
+       dest: /var/www/html/index.nginx-debian.html
+       owner: www-data
+       group: www-data
+       mode: '0644'
    - name: S'assurer que Nginx est démarrer
      service:
        name: nginx
