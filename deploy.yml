@@ -15,4 +15,9 @@
         dest: /var/www/html/
         owner: www-data
         group: www-data
-        mode: '0755'
+        mode: 0644
+    - name: Redémarrer Apache
+      systemd:
+        name: apache2
+        state: restarted
+
